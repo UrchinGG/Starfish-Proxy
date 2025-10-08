@@ -4,7 +4,7 @@ A Minecraft proxy server for Hypixel with an advanced plugin system, packet modi
 
 ## Disclaimer
 
-I heavily utilize Claude Code for this project. I try to the best of my ability to produce quality, readable code but my very limited experience can limit that. If you are a developer and wish to help improve the project or assist, please let me know.
+I heavily utilized Claude Code for this project. I try to the best of my ability to produce quality, readable code but my very limited experience can limit that. If you are a developer and wish to help improve the project or assist, please let me know.
 
 ## Quick Start
 
