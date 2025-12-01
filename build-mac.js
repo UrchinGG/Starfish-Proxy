@@ -32,9 +32,9 @@ if (fs.existsSync(pluginsSource)) {
 }
 
 try {
-    execSync('pkg src/proxy.js --target node18-win-x64 --output build/starfish-proxy.exe', { stdio: 'inherit' });
-    console.log('Build completed: build/starfish-proxy.exe');
+    execSync('pkg src/proxy.js --target node18-macos-x64,node18-macos-arm64 --output build/starfish-proxy', { stdio: 'inherit' });
+    console.log('Build completed: build/starfish-proxy');
 } catch (err) {
     console.error('Build failed:', err.message);
     process.exit(1);
-} 
+}
