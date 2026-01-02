@@ -1,10 +1,11 @@
+# Disclaimer
+
+### This is the **legacy** version of Starfish, deprecated in favor of the rewritten premium Starfish v2 (still in development). This version will not recieve further updates.
+This project is considered unfinished. Only the proxy loaded with official plugins can be guarenteed functional; parts of the legacy plugin API are untested and/or locked. The new plugin API of Starfish v2 has been overhauled with full unlocked support for world data, inventories, and even an injectable overlay module for rendering over your game.
+
 # Starfish Proxy
 
-A Minecraft proxy server for Hypixel with an advanced plugin system, packet modification capabilities, and built-in security features. Designed to provide an alternative to something like Raven's scripting API, but for legit players on any client. 
-
-## Disclaimer
-
-I heavily utilized Claude Code for this project. I try to the best of my ability to produce quality, readable code but my very limited experience can limit that. If you are a developer and wish to help improve the project or assist, please let me know.
+A Minecraft proxy server for Hypixel with an advanced plugin system, packet modification capabilities, and built-in security features. Designed to provide an alternative to Forge mods or Raven's scripting API, but for legit players and on any client. 
 
 ## Quick Start
 
@@ -265,7 +266,7 @@ The proxy enforces packet safety to maintain compatibility with Hypixel:
 
 ## Credits
 
-- Created by Hexze
+- Created by Hexze assisted by Claude Code 
 - Special thanks to J0nahG for starting the project and assisting me, and to Desiyn and nilsraccoon for contributing to development.
 
 ## Support
