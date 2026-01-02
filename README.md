@@ -1,5 +1,6 @@
 > [!WARNING]  
-> This is the **legacy** version of Starfish, deprecated in favor of the rewritten premium Starfish v2 (still in development). This version will not receive further updates. This project is considered unfinished. Only the proxy loaded with official plugins can be guaranteed functional; parts of the legacy plugin API are untested and/or locked. The new plugin API of Starfish v2 has been overhauled with full unlocked support for world data, inventories, and even an injectable overlay module for rendering over your game.
+> ### This is the **legacy** version of Starfish, deprecated in favor of the rewritten premium Starfish v2 (still in development).
+> This version will not receive further updates. This project is considered unfinished. Only the proxy loaded with official plugins can be guaranteed functional; parts of the legacy plugin API are untested and/or locked. The new plugin API of Starfish v2 has been overhauled with full unlocked support for world data, inventories, and even an injectable overlay module for rendering over your game.
 
 # Starfish Proxy
 
