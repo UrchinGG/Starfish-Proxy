@@ -5,7 +5,8 @@
   "main": "src/proxy.js",
   "scripts": {
     "start": "node src/proxy.js",
-    "build": "node build.js"
+    "build": "node build.js",
+    "build:mac": "node build-mac.js"
   },
   "keywords": [
     "minecraft",
