@@ -33,7 +33,8 @@ module.exports = (api) => {
                     type: 'text',
                     key: 'api.apiKey',
                     description: 'Your Urchin API key (optional - not required for tag checking).',
-                    placeholder: 'Enter your Urchin API key'
+                    placeholder: 'Enter your Urchin API key',
+                    encrypted: true
                 }
             ]
         },
