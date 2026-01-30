@@ -9,7 +9,10 @@ class MiscHandler {
     }
 
     handleTeam(data) {
-        const team = (data.mode === 3 || data.mode === 4) ? data.team : data.name;
+        const team = data.team || data.name;
+        
+        if (!team) return;
+
         const { mode } = data;
         
         switch (mode) {
@@ -78,17 +81,7 @@ class MiscHandler {
                 break;
             case 4:
                 let tm = this.gameState.teams.get(team);
-                if (!tm) {
-                    tm = {
-                        displayName: team,
-                        prefix: '',
-                        suffix: '',
-                        color: -1,
-                        players: new Set()
-                    };
-                    this.gameState.teams.set(team, tm);
-                }
-                if (data.players) {
+                if (tm && data.players) {
                     data.players.forEach(p => tm.players.delete(stripColorCodes(p)));
                 }
                 break;
