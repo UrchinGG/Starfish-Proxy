@@ -1,0 +1,81 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            target: node18-win-x64
+            output: starfish-proxy.exe
+            artifact: starfish-proxy-windows-x64
+          - os: macos-latest
+            target: node18-macos-arm64
+            output: starfish-proxy
+            artifact: starfish-proxy-macos
+          - os: ubuntu-latest
+            target: node18-linux-x64
+            output: starfish-proxy
+            artifact: starfish-proxy-linux-x64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install pkg
+        run: npm install -g pkg
+
+      - name: Build executable
+        run: pkg src/proxy.js --target ${{ matrix.target }} --output build/${{ matrix.output }}
+
+      - name: Copy plugins
+        run: cp -r plugins build/plugins
+        shell: bash
+
+      - name: Create archive (Windows)
+        if: matrix.os == 'windows-latest'
+        run: Compress-Archive -Path build/* -DestinationPath ${{ matrix.artifact }}.zip
+
+      - name: Create archive (Unix)
+        if: matrix.os != 'windows-latest'
+        run: cd build && zip -r ../${{ matrix.artifact }}.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}.zip
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            starfish-proxy-windows-x64/starfish-proxy-windows-x64.zip
+            starfish-proxy-macos/starfish-proxy-macos.zip
+            starfish-proxy-linux-x64/starfish-proxy-linux-x64.zip
+          generate_release_notes: true
