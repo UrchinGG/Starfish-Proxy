@@ -6,7 +6,7 @@ module.exports = (api) => {
         name: 'denicker',
         displayName: 'Nick Alerts',
         prefix: '§cDN',
-        version: '1.1.0',
+        version: '1.1.1',
         author: 'Hexze',
         minVersion: '0.1.7',
         description: 'Detects and resolves nicked players (Inspired by github.com/PugrillaDev)',
@@ -108,6 +108,13 @@ module.exports = (api) => {
     api.configSchema(configSchema);
 
     api.commands((registry) => {
+        registry.command('findskin')
+            .description('Find the skin UUID of a specific player in the world')
+            .argument('<player>', 'Player to check')
+            .handler((ctx) => {
+                const playerName = ctx.args.player;
+                denicker.findPlayerSkin(playerName);
+            });
     });
     
     denicker.registerHandlers();
@@ -297,6 +304,51 @@ class Denicker {
     
     getRealName(nickName) {
         return this.resolvedNicks.get(nickName) || null;
+    }
+    
+    findPlayerSkin(playerName) {
+        const player = this.api.getPlayerByName(playerName);
+        if (!player) {
+            this.api.chat(`${this.PLUGIN_PREFIX} Player '${playerName}' not found in the world.`);
+            return;
+        }
+        
+        const properties = this.api.getPlayerInfo(player.uuid)?.properties;
+        if (!properties) {
+            this.api.chat(`${this.PLUGIN_PREFIX} Could not get skin data for '${playerName}'.`);
+            return;
+        }
+        
+        const textureProp = properties.find(p => p.name === 'textures');
+        if (!textureProp?.value) {
+            this.api.chat(`${this.PLUGIN_PREFIX} No skin texture data found for '${playerName}'.`);
+            return;
+        }
+
+        try {
+            const skinData = JSON.parse(Buffer.from(textureProp.value, 'base64').toString('utf8'));
+            const url = skinData.textures?.SKIN?.url;
+            if (!url) {
+                this.api.chat(`${this.PLUGIN_PREFIX} No skin URL found for '${playerName}'.`);
+                return;
+            }
+
+            const hash = url.split('/').pop();
+            const realName = skinData.profileName;
+            
+            let result = `${this.PLUGIN_PREFIX} Skin UUID for '${playerName}': ${hash}`;
+            if (realName && realName !== playerName) {
+                result += ` (Real name: ${realName})`;
+            }
+            
+            if (KNOWN_NICK_SKINS.has(hash)) {
+                result += ` §c[KNOWN NICK SKIN]`;
+            }
+            
+            this.api.chat(result);
+        } catch (e) {
+            this.api.chat(`${this.PLUGIN_PREFIX} Error parsing skin data for '${playerName}': ${e.message}`);
+        }
     }
 }
 
